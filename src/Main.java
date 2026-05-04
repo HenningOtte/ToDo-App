@@ -15,6 +15,11 @@ public class Main {
         toDoManager.add(toDo2);
         toDoManager.add(toDo3);
         toDoManager.add(toDo4);
+
+        System.out.println(toDoManager.getNormalToDos());
+        System.out.println(toDoManager.getTimedToDos());
+
+        toDoManager.saveToDos();
     }
 
     /**

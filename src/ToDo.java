@@ -9,6 +9,15 @@ public class ToDo {
         this.erledigt = erledigt;
     }
 
+    @Override
+    public String toString() {
+        return "ToDo{" +
+                "title='" + title + '\'' +
+                ", beschreibung='" + beschreibung + '\'' +
+                ", erledigt=" + erledigt +
+                '}';
+    }
+
     public String getTitle() {
         return this.title;
     }

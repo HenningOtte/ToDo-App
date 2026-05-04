@@ -1,0 +1,1 @@
+ToDo{title='Erstes', beschreibung='1.', erledigt=false}ToDo{title='Zweites', beschreibung='2.', erledigt=false}ToDo{title='Erstes', beschreibung='1.', erledigt=false, endet: 2026-05-04T15:33:57.338191500}ToDo{title='Zweites', beschreibung='2.', erledigt=false, endet: 2026-05-04T15:27:57.344879900}
