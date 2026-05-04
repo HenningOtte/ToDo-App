@@ -6,18 +6,15 @@ public class Main {
     public static void main(String[] args) {
         ToDo toDo1 = new ToDo("Erstes", "1.", false);
         ToDo toDo2 = new ToDo("Zweites", "2.", false);
-        ToDo toDo3 = new TimedToDo("Erstes", "1.", false, LocalDateTime.now().plusMinutes(3));
-        ToDo toDo4 = new TimedToDo("Zweites", "2.", false, LocalDateTime.now().minusMinutes(3));
+        ToDo toDo3 = new TimedToDo("Drittes", "1.", false, LocalDateTime.now().plusMinutes(3));
+        ToDo toDo4 = new TimedToDo("Viertes", "2.", false, LocalDateTime.now().minusMinutes(3));
 
-        ToDoManager toDoManager = new ToDoManager();
+        ToDoManager toDoManager = new ToDoManager("ToDos.txt");
 
         toDoManager.add(toDo1);
         toDoManager.add(toDo2);
         toDoManager.add(toDo3);
         toDoManager.add(toDo4);
-
-        System.out.println(toDoManager.getNormalToDos());
-        System.out.println(toDoManager.getTimedToDos());
 
         toDoManager.saveToDos();
     }
