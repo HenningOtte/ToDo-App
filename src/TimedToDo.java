@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class TimedToDo extends ToDo {
     private LocalDateTime endet;
@@ -16,6 +17,20 @@ public class TimedToDo extends ToDo {
                 ", erledigt=" + isErledigt() +
                 ", endet: " + this.getDeadline() +
                 '}';
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        TimedToDo timedToDo = (TimedToDo) o;
+        return Objects.equals(endet, timedToDo.endet);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), endet);
     }
 
     public LocalDateTime getDeadline() {

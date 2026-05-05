@@ -9,14 +9,22 @@ public class Main {
         ToDo toDo3 = new TimedToDo("Drittes", "1.", false, LocalDateTime.now().plusMinutes(3));
         ToDo toDo4 = new TimedToDo("Viertes", "2.", false, LocalDateTime.now().minusMinutes(3));
 
-        ToDoManager toDoManager = new ToDoManager("ToDos.txt");
+        ToDoManager toDoManager = new ToDoManager("todo_save.txt");
 
         toDoManager.add(toDo1);
         toDoManager.add(toDo2);
         toDoManager.add(toDo3);
         toDoManager.add(toDo4);
 
+
+        System.out.println("Erster Durchlauf:");
+        toDoManager.printToDos();
+
+
+        System.out.println("Zweiter Durchlauf:");
         toDoManager.saveToDos();
+        toDoManager.loadToDos();
+        toDoManager.printToDos();
     }
 
     /**

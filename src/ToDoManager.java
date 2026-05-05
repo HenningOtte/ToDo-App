@@ -13,10 +13,22 @@ public class ToDoManager {
         this.path = path;
     }
 
-    public void add(ToDo toDo) {
-        toDos.add(toDo);
+    public void printToDos() {
+        for (int i = 0; i < this.toDos.size(); i++) {
+            System.out.println(i + ": " + this.toDos.get(i));
+        }
     }
-    // remove
+
+    public void add(ToDo toDo) {
+        boolean foundToDo = false;
+        for (int i = 0; i < this.toDos.size(); i++) {
+            if (this.toDos.get(i).equals(toDo)) {
+                foundToDo = true;
+                break;
+            }
+        }
+        if (!foundToDo) this.toDos.add(toDo);
+    }
 
     public void remove(ToDo toDo) {
         toDos.remove(toDo);
@@ -41,6 +53,7 @@ public class ToDoManager {
             ToDo toDo = toDos.get(i);
             if (!(toDo instanceof TimedToDo)) {
                 normalToDos.add(toDo);
+                System.out.println(toDo.toString());
             }
         }
         return normalToDos;
@@ -70,10 +83,10 @@ public class ToDoManager {
 
                 if (toDo instanceof TimedToDo) {
                     TimedToDo timedToDo = (TimedToDo) toDo;
-                    saveString += timedToDo.getDeadline();
+                    saveString += "_" + timedToDo.getDeadline().toString();
                 }
 
-                fileWriter.write(saveString);
+                fileWriter.write(saveString + "\n");
             }
 
             fileWriter.close();
@@ -84,26 +97,50 @@ public class ToDoManager {
 
     public void loadToDos() {
         File file = new File(this.path);
-        String fileContent = "";
-        if (file.exists()) {
-            try {
-                FileReader fileReader = new FileReader(file);
-                int temp = fileReader.read();
-                while (temp != -1) {
-                    fileContent += (char) temp;
-                    temp = fileReader.read();
-                }
-            } catch (Exception e) {
-                System.out.println(e);
+        String fullString = "";
+        if (!file.exists()) return;
+
+        try {
+            FileReader fileReader = new FileReader(file);
+            int temp = fileReader.read();
+            while (temp != -1) {
+                fullString += (char) temp;
+                temp = fileReader.read();
             }
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
-        if (!fileContent.isEmpty()) {
-            String[] tempArray = fileContent.split("/n");
+        if (!fullString.isEmpty()) {
+            String[] tempArray = fullString.split("\n");
             for (int i = 0; i < tempArray.length; i++) {
-                System.out.println(tempArray[i]);
+                String[] toDoContent = tempArray[i].split("_");
+                if (toDoContent.length > 3) {
+                    TimedToDo timedToDo = createTimedToDoFromArray(toDoContent);
+                    this.add(timedToDo);
+                } else {
+                    ToDo toDo = createToDoFromArray(toDoContent);
+                    this.add(toDo);
+                }
             }
         }
+    }
+
+    private ToDo createToDoFromArray(String[] contentArray) {
+        return new ToDo(
+                contentArray[0],
+                contentArray[1],
+                Boolean.parseBoolean(contentArray[2])
+        );
+    }
+
+    private TimedToDo createTimedToDoFromArray(String[] contentArray) {
+        return new TimedToDo(
+                contentArray[0],
+                contentArray[1],
+                Boolean.parseBoolean(contentArray[2]),
+                LocalDateTime.parse(contentArray[3])
+        );
     }
 
 }

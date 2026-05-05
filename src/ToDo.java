@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class ToDo {
     private String title;
     private String beschreibung;
@@ -16,6 +18,18 @@ public class ToDo {
                 ", beschreibung='" + beschreibung + '\'' +
                 ", erledigt=" + erledigt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ToDo toDo = (ToDo) o;
+        return erledigt == toDo.erledigt && Objects.equals(title, toDo.title) && Objects.equals(beschreibung, toDo.beschreibung);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, beschreibung, erledigt);
     }
 
     public String getTitle() {
