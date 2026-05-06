@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -7,6 +9,13 @@ public class TimedToDo extends ToDo {
     TimedToDo(String title, String beschreibung, boolean erledigt, LocalDateTime endet) {
         super(title, beschreibung, erledigt);
         this.endet = endet;
+    }
+
+    @Override
+    public JPanel getJCard() {
+        JPanel toDo = super.getJCard();
+        toDo.add(new Label(getDeadline().toString()), BorderLayout.SOUTH);
+        return toDo;
     }
 
     @Override

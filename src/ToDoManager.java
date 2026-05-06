@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ToDoManager {
     // Liste ToDos
-    ArrayList<ToDo> toDos = new ArrayList<>();
+    public ArrayList<ToDo> toDos = new ArrayList<>();
     private String path;
 
     public ToDoManager(String path) {

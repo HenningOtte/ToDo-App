@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.Objects;
 
 public class ToDo {
@@ -54,5 +56,15 @@ public class ToDo {
 
     public void setErledigt(boolean erledigt) {
         this.erledigt = erledigt;
+    }
+
+    public JPanel getJCard() {
+        JPanel toDo = new JPanel(new BorderLayout());
+        toDo.setPreferredSize(new Dimension(Integer.MAX_VALUE, 80));
+        toDo.add(new Label(this.title), BorderLayout.NORTH);
+        toDo.add(new Label(this.beschreibung), BorderLayout.CENTER);
+        toDo.add(new Checkbox(), BorderLayout.EAST);
+
+        return toDo;
     }
 }

@@ -1,30 +1,22 @@
+import javax.swing.*;
 import java.time.LocalDateTime;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+
     public static void main(String[] args) {
-        ToDo toDo1 = new ToDo("Erstes", "1.", false);
-        ToDo toDo2 = new ToDo("Zweites", "2.", false);
-        ToDo toDo3 = new TimedToDo("Drittes", "1.", false, LocalDateTime.now().plusMinutes(3));
-        ToDo toDo4 = new TimedToDo("Viertes", "2.", false, LocalDateTime.now().minusMinutes(3));
+        ToDoWindow toDoWindow = new ToDoWindow();
+
 
         ToDoManager toDoManager = new ToDoManager("todo_save.txt");
+    }
 
-        toDoManager.add(toDo1);
-        toDoManager.add(toDo2);
-        toDoManager.add(toDo3);
-        toDoManager.add(toDo4);
-
-
-        System.out.println("Erster Durchlauf:");
-        toDoManager.printToDos();
-
-
-        System.out.println("Zweiter Durchlauf:");
-        toDoManager.saveToDos();
-        toDoManager.loadToDos();
-        toDoManager.printToDos();
+    static JFrame openFrame() {
+        JFrame frame = new JFrame("ToDo-App");
+        frame.setSize(400, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        return frame;
     }
 
     /**
