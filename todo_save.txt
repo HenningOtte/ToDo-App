@@ -1,4 +1,2 @@
-Erstes_1._false
-Zweites_2._false
-Drittes_1._false_2026-05-06T15:02:44.921012200
-Viertes_2._false_2026-05-06T14:56:44.924045900
+Einkaufen_Bananen, Brot, Eier_false
+Steuererklaerung_1000 Sonderausgaben_false

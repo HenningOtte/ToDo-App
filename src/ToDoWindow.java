@@ -1,32 +1,61 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
 
 public class ToDoWindow extends JFrame {
 
+    // Handles all ToDo data
     private ToDoManager toDoManager;
+
+    // Main panel containing all ToDos
+    private JPanel toDoArea;
 
     public ToDoWindow(ToDoManager toDoManager) {
         this.toDoManager = toDoManager;
 
+        // Window settings
         setTitle("ToDo-App");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        add(this.createGUIBtns(), BorderLayout.SOUTH);
+        // Create and add ToDo list area
+        this.toDoArea = createToDoArea();
+        add(this.toDoArea, BorderLayout.CENTER);
 
+        // Add control buttons
+        add(createGUIBtns(), BorderLayout.SOUTH);
+
+        // Resize window to fit content
+        pack();
+
+        // Save ToDos when window closes
+        addWindowListener(new CostumWindowAdapter(toDoManager));
         setVisible(true);
+    }
+
+    public JPanel createToDoArea() {
+        JPanel jPanel = new JPanel();
+
+        // Vertical layout for ToDos
+        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
+
+        // Add all ToDo blocks
+        for (ToDo toDo : toDoManager.getToDos()) {
+            jPanel.add(createToDoBlock(toDo));
+        }
+
+        return jPanel;
     }
 
     private JPanel createGUIBtns() {
         JPanel jPanel = new JPanel(new FlowLayout());
 
         JButton add = new JButton("Add");
+
+        // Add new ToDo
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,6 +71,7 @@ public class ToDoWindow extends JFrame {
                 try {
                     int intHours = Integer.parseInt(hours);
 
+                    // Create normal or timed ToDo
                     if (intHours <= 0) {
                         ToDo toDo = new ToDo(title, description, false);
                         toDoManager.add(toDo);
@@ -51,41 +81,42 @@ public class ToDoWindow extends JFrame {
                     }
 
                 } catch (Exception exception) {
+                    // Fallback if input is invalid
                     ToDo toDo = new ToDo(title, description, false);
                     toDoManager.add(toDo);
                 }
 
-                System.out.println("Add:");
-                toDoManager.printToDos();
+                // Refresh UI
+                update();
             }
         });
 
         JButton delAll = new JButton("Del All");
+        // Delete all ToDos
         delAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 toDoManager.getToDos().clear();
-
-                System.out.println("Clear:");
-                toDoManager.printToDos();
+                update();
             }
         });
 
         JButton dellDone = new JButton("Del Done");
+        // Delete all completed ToDos
         dellDone.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = toDoManager.getToDos().size() - 1; i >= 0; i--) {
-                    if (toDoManager.getToDos().get(i).isErledigt()) {
+                    if (toDoManager.getToDos().get(i).isCompleted()) {
                         toDoManager.remove(toDoManager.getToDos().get(i));
                     }
                 }
 
-                System.out.println("Remove Erl:");
-                toDoManager.printToDos();
+                update();
             }
         });
 
+        // Add buttons to panel
         jPanel.add(add);
         jPanel.add(delAll);
         jPanel.add((dellDone));
@@ -93,12 +124,34 @@ public class ToDoWindow extends JFrame {
         return jPanel;
     }
 
+    private void update() {
+        // Remove old ToDo panel
+        remove(toDoArea);
+
+        // Save current state
+        toDoManager.saveToDos();
+
+        // Create updated ToDo panel
+        toDoArea = createToDoArea();
+
+        // Add updated panel
+        add(toDoArea, BorderLayout.CENTER);
+
+        // Resize window
+        pack();
+    }
+
     private String getInput(String prompt) {
         String input = "";
 
         while (true) {
+            // Show input dialog
             input = JOptionPane.showInputDialog(prompt);
+
+            // Return empty string if canceled
             if (input == null) return "";
+
+            // Return valid input
             if (!input.isEmpty()) return input;
         }
     }
@@ -106,20 +159,26 @@ public class ToDoWindow extends JFrame {
     private JPanel createToDoBlock(ToDo toDo) {
         JPanel jPanel = new JPanel(new BorderLayout());
 
+        // Add title and description
         jPanel.add(new Label(toDo.getTitle()), BorderLayout.NORTH);
-        jPanel.add(new Label(toDo.getBeschreibung()), BorderLayout.CENTER);
+        jPanel.add(new Label(toDo.getDescription()), BorderLayout.CENTER);
 
         JCheckBox jCheckBox = new JCheckBox();
-        jCheckBox.setSelected(toDo.isErledigt());
+
+        // Set current completion state
+        jCheckBox.setSelected(toDo.isCompleted());
+
+        // Update completion state
         jCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                toDo.setErledigt(jCheckBox.isSelected());
+                toDo.setCompleted(jCheckBox.isSelected());
             }
         });
 
         jPanel.add(jCheckBox, BorderLayout.EAST);
 
+        // Check if ToDo is a TimedToDo
         if (toDo instanceof TimedToDo) {
             jPanel.add(new Label(((TimedToDo) toDo).getDeadline().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))), BorderLayout.SOUTH);
         }

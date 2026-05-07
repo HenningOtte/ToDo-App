@@ -6,17 +6,16 @@ import java.time.LocalDateTime;
 public class Main {
 
     public static void main(String[] args) {
+        // Create ToDo manager with save file
         ToDoManager toDoManager = new ToDoManager("todo_save.txt");
+
+        // Load saved ToDos
+        toDoManager.loadToDos();
+
+        // Remove expired timed ToDos
+        toDoManager.removeExpiredToDos();
+
+        // Create and show GUI window
         ToDoWindow toDoWindow = new ToDoWindow(toDoManager);
     }
-
-    /**
-     * To Do Logik
-     *
-     * To Do Klasse x
-     * To Do Klasse mit Begrenzung x
-     *
-     * To Do Manager
-     * Schnittstellen (add/remove/get/toggleCompletion)
-     */
 }

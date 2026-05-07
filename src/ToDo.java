@@ -1,60 +1,77 @@
-import javax.swing.*;
-import java.awt.*;
 import java.util.Objects;
 
 public class ToDo {
-    private String title;
-    private String beschreibung;
-    private boolean erledigt;
 
-    ToDo(String title, String beschreibung, boolean erledigt) {
+    // Title of the ToDo
+    private String title;
+
+    // Description of the ToDo
+    private String description;
+
+    // Completion status
+    private boolean completed;
+
+    // Constructor
+    ToDo(String title, String description, boolean completed) {
         this.title = title;
-        this.beschreibung = beschreibung;
-        this.erledigt = erledigt;
+        this.description = description;
+        this.completed = completed;
     }
 
     @Override
     public String toString() {
+
+        // Returns ToDo as string
         return "ToDo{" +
                 "title='" + title + '\'' +
-                ", beschreibung='" + beschreibung + '\'' +
-                ", erledigt=" + erledigt +
+                ", beschreibung='" + description + '\'' +
+                ", erledigt=" + completed +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
+        // Check if objects are equal
         if (o == null || getClass() != o.getClass()) return false;
+
         ToDo toDo = (ToDo) o;
-        return erledigt == toDo.erledigt && Objects.equals(title, toDo.title) && Objects.equals(beschreibung, toDo.beschreibung);
+        return completed == toDo.completed && Objects.equals(title, toDo.title) && Objects.equals(description, toDo.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, beschreibung, erledigt);
+
+        // Generate hash code
+        return Objects.hash(title, description, completed);
     }
 
+    // Returns title
     public String getTitle() {
         return this.title;
     }
 
+    // Sets new title
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getBeschreibung() {
-        return beschreibung;
+    // Returns description
+    public String getDescription() {
+        return description;
     }
 
-    public void setBeschreibung(String beschreibung) {
-        this.beschreibung = beschreibung;
+    // Sets new description
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public boolean isErledigt() {
-        return erledigt;
+    // Returns completion status
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setErledigt(boolean erledigt) {
-        this.erledigt = erledigt;
+    // Sets completion status
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }
