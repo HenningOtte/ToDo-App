@@ -12,13 +12,6 @@ public class TimedToDo extends ToDo {
     }
 
     @Override
-    public JPanel getJCard() {
-        JPanel toDo = super.getJCard();
-        toDo.add(new Label(getDeadline().toString()), BorderLayout.SOUTH);
-        return toDo;
-    }
-
-    @Override
     public String toString() {
         return "ToDo{" +
                 "title='" + this.getTitle() + '\'' +

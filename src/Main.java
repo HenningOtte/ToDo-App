@@ -6,17 +6,8 @@ import java.time.LocalDateTime;
 public class Main {
 
     public static void main(String[] args) {
-        ToDoWindow toDoWindow = new ToDoWindow();
-
-
         ToDoManager toDoManager = new ToDoManager("todo_save.txt");
-    }
-
-    static JFrame openFrame() {
-        JFrame frame = new JFrame("ToDo-App");
-        frame.setSize(400, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        return frame;
+        ToDoWindow toDoWindow = new ToDoWindow(toDoManager);
     }
 
     /**

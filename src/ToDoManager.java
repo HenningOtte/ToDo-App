@@ -13,6 +13,10 @@ public class ToDoManager {
         this.path = path;
     }
 
+    public ArrayList<ToDo> getToDos() {
+        return toDos;
+    }
+
     public void printToDos() {
         for (int i = 0; i < this.toDos.size(); i++) {
             System.out.println(i + ": " + this.toDos.get(i));
